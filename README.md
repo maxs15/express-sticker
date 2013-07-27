@@ -43,6 +43,7 @@ Creation of the sticks
  - The params of all the dependencies are merged in one object.
  - If there is an error in the dependencies, the execution of the dependencies is stopped and the main stick is called with the error in req.err.
  - It's possible to override a stick who is using res.end(), its res.end() will be ineffective but yours will work.
+
 ```js
 var stick = sticker.stick;
 
