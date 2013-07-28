@@ -73,6 +73,8 @@ sticker.execute(myStick, function(err, params) {
 sticker.execute("displayUser", {type: "poney"}, function(err, params) {
     console.log("stick executed");
 });
+// Remove it
+sticker.remove("displayUser");
 ```
 
 #### Initialization of the routes file
