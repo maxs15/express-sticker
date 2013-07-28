@@ -76,9 +76,11 @@ stick("overrideDisplayUser", ["displayUser"], function(req, res, params) {
 Get a stick and execute it
 ```js
 var myStick = sticker.stick("displayUser");
-sticker.execute(myStick);
+sticker.execute(myStick, function(err, params) {
+    console.log("stick executed");
+});
 // Or
-sticker.execute("displayUser", req, res, function(err, params) {
+sticker.execute("displayUser", {type: "poney"}, function(err, params) {
     console.log("stick executed");
 });
 ```

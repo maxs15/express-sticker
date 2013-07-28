@@ -1,52 +1,9 @@
-var express = require("express");
-var app = express();
-var sticker = require("../lib/index.js")(app);
-var stick = sticker.stick;
 var http = require("http");
 var assert = require("assert");
-
-stick("checkLogin", function(req, res, next) {
-	next(null);
-});
-
-stick("checkAvailability", function(req, res, next) {
-	next(null);
-});
-
-var fetchUserData = stick("fetchUserData", ["checkLogin", "checkAvailability"], function(req, res, next, params) {
-	next(null, {user: "jack"});
-});
-
-stick("displayUser", [fetchUserData], function(req, res, next, params) {
-	res.end(params.user);
-	next(true, params);
-});
-
-stick("overrideDisplayUser", ["displayUser"], function(req, res, params) {
-	res.end();
-	next(null, params);
-});
-
-stick("displayWall", function(req, res, next, params) {
-	res.end("Wall !");
-	next(null, params);
-});
-
-stick("displayAdmin", function(req, res, next, params) {
-	res.end("Admin interface !");
-	next(true, params);
-});
-
-/* --------------- SERVER CONFIG ------------------- */
-
-app.configure(function() {
-	this.use(express.bodyParser());
-    this.use(app.router);
-});
-
-var err = sticker.addRoutes(__dirname + "/routes.js", {prod: true});
-
-app.listen(8000);
+var server = require("./server");
+var sticker = server.sticker;
+var err = server.err;
+var fetchUserData = server.fetchUserData;
 
 /* -------------- MOCHA TESTS ----------------------- */
 
@@ -66,15 +23,30 @@ describe('testing sticks', function () {
       done();
   });
 
-  it('should execute the stick', function (done) {
-      assert.notEqual(null, fetchUserData);
-
-      sticker.execute(fetchUserData, {}, {}, function(err, params) {
+  it('Mode 1: should execute the stick and return the params', function (done) {
+      sticker.execute(fetchUserData, {type: "poney"}, function(err, params) {
         assert.equal(null, err);
+        assert.equal("poney", params.type);
         assert.equal("jack", params.user);
         done();
       });
+  });
 
+  it('Mode 2: should execute the stick', function (done) {
+      sticker.execute(fetchUserData, function(err, params) {
+        assert.equal(null, err);
+        done();
+      });
+  });
+
+  it('Mode 3: should execute the stick', function (done) {
+      sticker.execute(fetchUserData, {type: "poney"});
+      done();
+  });
+
+   it('Mode 4: should execute the stick', function (done) {
+      sticker.execute("fetchUserData");
+      done();
   });
 
 });
