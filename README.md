@@ -15,14 +15,14 @@ npm install express-sticker
 
 ### Usage examples
 
-Initialization of the sticker
+#### Initialization of the sticker
 ```js
 var express = require("express");
 var app = express();
 var sticker = require("../lib/index.js")(app);
 ```
 
-Creation of the sticks
+#### Creation of the sticks
  - Every sticks must call next(error, params) at the end of its execution.
  - The params of all the dependencies are merged in one object.
  - If there is an error in the dependencies, the execution of the dependencies is stopped and the main stick is called with the error in req.err.
@@ -57,7 +57,7 @@ stick("overrideDisplayUser", ["displayUser"], function(req, res, params) {
 });
 ```
 
-Get a stick and execute it
+#### Get a stick and execute it
 ```js
 var myStick = sticker.stick("displayUser");
 sticker.execute(myStick, function(err, params) {
@@ -69,15 +69,16 @@ sticker.execute("displayUser", {type: "poney"}, function(err, params) {
 });
 ```
 
-Initialization of the routes file, possibility to add multiple files
-Possibility to pass params to the routes file.
-You must add the routes after the sticks are loaded.
+#### Initialization of the routes file
+ - Possibility to add multiple files
+ - Possibility to pass params to the routes file.
+ - You must add the routes after the sticks are loaded.
 ```js
 var params = {prod: true};
 var err = sticker.addRoutes(__dirname + "/routes.js", params);
 ```
 
-Routes file example:
+#### Routes file example:
 ```js
 module.exports = function(params) {
     return [{action: "get", path: "/user", stick: "displayUser"},
