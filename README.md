@@ -27,12 +27,18 @@ var sticker = require("../lib/index.js")(app);
  - The params of all the dependencies are merged in one object.
  - If there is an error in the dependencies, the execution of the dependencies is stopped and the main stick is called with the error in req.err.
  - It's possible to override a stick who is using res.end(), its res.end() will be ineffective but yours will work.
+ - If you want to force the end, the method res.forceEnd() is available, usefull for some stuff like the checkLogin example. In this case do not call the next callback.
 
 ```js
 var stick = sticker.stick;
 
 stick("checkLogin", function(req, res, next) {
-    next(null);
+    if (!req.user) {
+        res.redirect("/login");
+        res.forceEnd();
+    } else {
+        next(false);
+    }
 });
 
 stick("checkAvailability", function(req, res, next) {
@@ -52,7 +58,7 @@ stick("displayUser", [fetchUserData], function(req, res, next, params) {
 });
 
 stick("overrideDisplayUser", ["displayUser"], function(req, res, params) {
-    res.end();
+    res.end("user: " + params.user);
     next(null, params);
 });
 ```
@@ -73,7 +79,7 @@ sticker.execute("displayUser", {type: "poney"}, function(err, params) {
  - Possibility to add multiple files
  - Possibility to pass params to the routes file.
  - You must add the routes after the sticks are loaded.
- 
+
 ```js
 var params = {prod: true};
 var err = sticker.addRoutes(__dirname + "/routes.js", params);
