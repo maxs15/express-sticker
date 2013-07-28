@@ -72,10 +72,13 @@ stick("overrideDisplayUser", ["displayUser"], function(req, res, params) {
     next(null, params);
 });
 ```
-Using a variable in the dependencies array is better because faster, express-sticker doesn't have to look for the stick id but both practises are working.
 
 Get a stick and execute it
 ```js
 var myStick = sticker.stick("displayUser");
-sticker.execute(stick);
+sticker.execute(myStick);
+// Or
+sticker.execute("displayUser", req, res, function(err, params) {
+    console.log("stick executed");
+});
 ```

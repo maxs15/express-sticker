@@ -18,7 +18,10 @@
   "keywords": [
     "express",
     "stick",
-    "group"
+    "group",
+    "ressource",
+    "route",
+    "configuration"
   ],
   "dependencies": {},
   "devDependencies": {
