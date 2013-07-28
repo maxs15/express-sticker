@@ -73,6 +73,7 @@ sticker.execute("displayUser", {type: "poney"}, function(err, params) {
  - Possibility to add multiple files
  - Possibility to pass params to the routes file.
  - You must add the routes after the sticks are loaded.
+ 
 ```js
 var params = {prod: true};
 var err = sticker.addRoutes(__dirname + "/routes.js", params);
