@@ -88,10 +88,11 @@ var err = sticker.addRoutes(__dirname + "/routes.js", params);
 ```
 
 #### Routes file example:
-	- action: The app.VERB() method provided by routing functionality in Express
-	- path: path to call the route
-	- stick: stick that will be executed
-	- enabled: to disable/enable the route, default is true
+ - action: The app.VERB() method provided by routing functionality in Express
+ - path: path to call the route
+ - stick: stick that will be executed
+ - enabled: to disable/enable the route, default is true
+
 ```js
 module.exports = function(params) {
     return [{action: "get", path: "/user", stick: "displayUser"},
