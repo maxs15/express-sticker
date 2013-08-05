@@ -32,7 +32,7 @@ var sticker = require("../lib/index.js")(app);
 ```js
 var stick = sticker.stick;
 
-stick("checkLogin", function(req, res, next) {
+stick("checkLogin", function(next, params, req, res) {
     if (!req.user) {
         res.redirect("/login");
         res.forceEnd();
@@ -41,15 +41,15 @@ stick("checkLogin", function(req, res, next) {
     }
 });
 
-stick("checkAvailability", function(req, res, next) {
+stick("checkAvailability", function(next) {
     next(null);
 });
 
-var fetchUserData = stick("fetchUserData", ["checkLogin", "checkAvailability"], function(req, res, next, params) {
+var fetchUserData = stick("fetchUserData", ["checkAvailability"], function(next, params) {
     next(null, {user: "jack"});
 });
 
-stick("displayUser", [fetchUserData], function(req, res, next, params) {
+stick("displayUser", ["checkLogin", fetchUserData], function(next, params, req, res) {
     if (req.error)
         res.end("error");
     else
@@ -57,7 +57,7 @@ stick("displayUser", [fetchUserData], function(req, res, next, params) {
     next(true, params);
 });
 
-stick("overrideDisplayUser", ["displayUser"], function(req, res, params) {
+stick("overrideDisplayUser", ["displayUser"], function(next, params ,req, res) {
     res.end("user: " + params.user);
     next(null, params);
 });

@@ -3,34 +3,34 @@ var app = express();
 var sticker = require("../lib/index.js")(app);
 var stick = sticker.stick;
 
-stick("checkLogin", function(req, res, next, params) {
+stick("checkLogin", function(next, params, req, res) {
 	next(null);
 });
 
-stick("checkAvailability", function(req, res, next) {
+stick("checkAvailability", function(next) {
 	next(null);
 });
 
-var fetchUserData = stick("fetchUserData", ["checkLogin", "checkAvailability"], function(req, res, next, params) {
+var fetchUserData = stick("fetchUserData", ["checkAvailability"], function(next, params) {
 	next(null, {user: "jack"});
 });
 
-stick("displayUser", [fetchUserData], function(req, res, next, params) {
+stick("displayUser", ["checkLogin", fetchUserData], function(next, params, req, res) {
 	res.end(params.user);
 	next(true, params);
 });
 
-stick("overrideDisplayUser", ["displayUser"], function(req, res, params) {
+stick("overrideDisplayUser", ["displayUser"], function(next, params ,req, res) {
 	res.end();
 	next(null, params);
 });
 
-stick("displayWall", function(req, res, next, params) {
+stick("displayWall", function(next, params, req, res) {
 	res.end("Wall !");
 	next(null, params);
 });
 
-stick("displayAdmin", function(req, res, next, params) {
+stick("displayAdmin", function(next, params, req, res) {
 	res.end("Admin interface !");
 	next(true, params);
 });
