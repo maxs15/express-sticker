@@ -65,16 +65,16 @@ stick("overrideDisplayUser", ["displayUser"], function(next, params ,req, res) {
 
 #### Get a stick and execute it
 ```js
-var myStick = sticker.stick("displayUser");
+var myStick = sticker.stick("fetchUserData");
 sticker.execute(myStick, function(err, params) {
     console.log("stick executed");
 });
 // Or
-sticker.execute("displayUser", {type: "poney"}, function(err, params) {
-    console.log("stick executed");
+sticker.execute("fetchUserData", {type: "poney"}, function(err, params) {
+    console.log("stick executed, user = ", params.user);
 });
 // Remove it
-sticker.remove("displayUser");
+sticker.remove("fetchUserData");
 ```
 
 #### Initialization of the routes file
@@ -88,6 +88,10 @@ var err = sticker.addRoutes(__dirname + "/routes.js", params);
 ```
 
 #### Routes file example:
+	- action: The app.VERB() method provided by routing functionality in Express
+	- path: path to call the route
+	- stick: stick that will be executed
+	- enabled: to disable/enable the route, default is true
 ```js
 module.exports = function(params) {
     return [{action: "get", path: "/user", stick: "displayUser"},
