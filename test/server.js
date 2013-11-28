@@ -1,7 +1,6 @@
 var express = require("express");
 var app = express();
-var sticker = require("../lib/index.js")(app);
-var stick = sticker.stick;
+var stick = require("../lib/index.js").use(app);
 
 stick("checkLogin", function(next, params, req, res) {
 	next(null);
@@ -42,11 +41,11 @@ app.configure(function() {
     this.use(app.router);
 });
 
-var err = sticker.addRoutes(__dirname + "/routes.js", {prod: true});
+var err = stick.addRoutes(__dirname + "/routes.js", {prod: true});
 
 app.listen(8000);
 console.log("server running...");
 
-module.exports.sticker = sticker;
+module.exports.sticker = stick;
 module.exports.err = err;
 module.exports.fetchUserData = fetchUserData;
