@@ -19,8 +19,9 @@ npm install express-sticker
 ```js
 var express = require("express");
 var app = express();
-var sticker = require("../lib/index.js")(app);
+var stick = require("sticker").use(app);
 ```
+Configure the express application with the use method.
 
 #### Creation of the sticks
  - Every sticks must call next(error, params) at the end of its execution.
@@ -30,7 +31,7 @@ var sticker = require("../lib/index.js")(app);
  - If you want to force the end, the method res.forceEnd() is available, usefull for some stuff like the checkLogin example. In this case do not call the next callback.
 
 ```js
-var stick = sticker.stick;
+var stick = require("sticker");
 
 stick("checkLogin", function(next, params, req, res) {
     if (!req.user) {
@@ -65,16 +66,16 @@ stick("overrideDisplayUser", ["displayUser"], function(next, params ,req, res) {
 
 #### Get a stick and execute it
 ```js
-var myStick = sticker.stick("fetchUserData");
-sticker.execute(myStick, function(err, params) {
+var myStick = stick("fetchUserData");
+stick.execute(myStick, function(err, params) {
     console.log("stick executed");
 });
 // Or
-sticker.execute("fetchUserData", {type: "poney"}, function(err, params) {
+stick.execute("fetchUserData", {type: "poney"}, function(err, params) {
     console.log("stick executed, user = ", params.user);
 });
 // Remove it
-sticker.remove("fetchUserData");
+stick.remove("fetchUserData");
 ```
 
 #### Initialization of the routes file
@@ -84,7 +85,7 @@ sticker.remove("fetchUserData");
 
 ```js
 var params = {prod: true};
-var err = sticker.addRoutes(__dirname + "/routes.js", params);
+var err = stick.addRoutes(__dirname + "/routes.js", params);
 ```
 
 #### Routes file example:
