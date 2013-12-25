@@ -34,6 +34,15 @@ stick("displayAdmin", function(next, params, req, res) {
 	next(true, params);
 });
 
+stick("getMoney", function(next, params) {
+	return next(null, {money: 500});
+});
+
+var getMoney = stick("getMoney", function(next, params) {
+	params.money += 200;
+	return next(null, params);
+});
+
 /* --------------- SERVER CONFIG ------------------- */
 
 app.configure(function() {
@@ -49,3 +58,4 @@ console.log("server running...");
 module.exports.sticker = stick;
 module.exports.err = err;
 module.exports.fetchUserData = fetchUserData;
+module.exports.getMoney = getMoney;

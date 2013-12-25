@@ -4,6 +4,7 @@ var server = require("./server");
 var sticker = server.sticker;
 var err = server.err;
 var fetchUserData = server.fetchUserData;
+var getMoney = server.getMoney;
 
 /* -------------- MOCHA TESTS ----------------------- */
 
@@ -19,24 +20,24 @@ describe('testing routes file', function () {
 describe('testing sticks', function () {
 
   it('should return the stick after creating a stick', function (done) {
-      assert.notEqual(null, fetchUserData);
-      done();
+    assert.notEqual(null, fetchUserData);
+    done();
   });
 
   it('Mode 1: should execute the stick and return the params', function (done) {
-      sticker.execute(fetchUserData, {type: "poney"}, function(err, params) {
-        assert.equal(null, err);
-        assert.equal("poney", params.type);
-        assert.equal("jack", params.user);
-        done();
-      });
+    sticker.execute(fetchUserData, {type: "poney"}, function(err, params) {
+      assert.equal(null, err);
+      assert.equal("poney", params.type);
+      assert.equal("jack", params.user);
+      done();
+    });
   });
 
   it('Mode 2: should execute the stick', function (done) {
-      sticker.execute(fetchUserData, function(err, params) {
-        assert.equal(null, err);
-        done();
-      });
+    sticker.execute(fetchUserData, function(err, params) {
+      assert.equal(null, err);
+      done();
+    });
   });
 
   it('Mode 3: should execute the stick', function (done) {
@@ -44,9 +45,15 @@ describe('testing sticks', function () {
       done();
   });
 
-   it('Mode 4: should execute the stick', function (done) {
-      sticker.execute("fetchUserData");
+  it('Mode 4: should execute the stick', function (done) {
+    sticker.execute("fetchUserData");
+    done();
+  });
+
+  it('Mode 5: should execute the stick', function (done) {
+    fetchUserData(function() {
       done();
+    });
   });
 
 });
@@ -101,6 +108,18 @@ describe('testing route with dependencies', function () {
         done();
       });
 
+    });
+  });
+
+});
+
+describe('testing stick override', function () {
+
+  it('should override the stick', function (done) {
+    getMoney(function(err, params) {
+      if (!params.money || params.money != 700)
+        return done("Not getting the right param");
+      return done();
     });
   });
 

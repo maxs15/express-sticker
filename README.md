@@ -62,11 +62,29 @@ stick("overrideDisplayUser", ["displayUser"], function(next, params ,req, res) {
     res.end("user: " + params.user);
     next(null, params);
 });
+
+// Override a stick
+stick("getMoney", function(next, params) {
+    return next(null, {money: 500});
+});
+
+var getMoney = stick("getMoney", function(next, params) {
+    params.money += 200;
+    return next(null, params);
+});
+
+getMoney(function(err, params) {
+    console.log("700 = ", params.money);
+});
 ```
 
 #### Get a stick and execute it
 ```js
 var myStick = stick("fetchUserData");
+myStick(function(err, params) {
+    console.log("stick executed");
+});
+// Or
 stick.execute(myStick, function(err, params) {
     console.log("stick executed");
 });
