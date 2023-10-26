@@ -3,7 +3,7 @@
   "description": "Group your express routes to access them globally and save the routes path in a configuration file",
   "version": "0.1.7",
   "homepage": "https://github.com/maxs15/express-sticker",
-  "author": "Maxime Mezrahi (http://github.com/maxs15)",
+  "author": "Max (http://github.com/maxs15)",
   "main": "lib/index.js",
   "engines": {
     "node": ">= 0.8.0"
@@ -27,7 +27,7 @@
   },
   "_from": "express-sticker@0.1.0",
   "contributors": [
-    "Maxime Mezrahi"
+    "Max"
   ],
   "bugs": {
     "url": "https://github.com/maxs15/express-sticker/issues"
